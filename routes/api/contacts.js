@@ -1,41 +1,19 @@
 const express = require("express");
-
 const router = express.Router();
+const contacts = require("../../models/contacts.json");
 
-// router.get("/", async (req, res, next) => {
-//   res.json({ message: "template message" });
-// });
-
-// router.get("/:contactId", async (req, res, next) => {
-//   res.json({ message: "template message" });
-// });
-
-// router.post("/", async (req, res, next) => {
-//   res.json({ message: "template message" });
-// });
-
-// router.delete("/:contactId", async (req, res, next) => {
-//   res.json({ message: "template message" });
-// });
-
-// router.put("/:contactId", async (req, res, next) => {
-//   res.json({ message: "template message" });
-// });
-
-// module.exports = router;
-
-// GET /api/contacts
-router.get("/api/contacts", async (req, res) => {
+// Отримати всі контакти
+router.get("/", async (req, res) => {
   try {
-    const contacts = await contacts.listContacts();
-    res.status(200).json(contacts);
+    const contactsData = await listContacts();
+    res.status(200).json(contactsData);
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
-// GET /api/contacts/:id
-router.get("/api/contacts/:id", async (req, res) => {
+// Отримати контакт за ID
+router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -50,8 +28,8 @@ router.get("/api/contacts/:id", async (req, res) => {
   }
 });
 
-// POST /api/contacts
-router.post("/api/contacts", async (req, res) => {
+// Додати новий контакт
+router.post("/", async (req, res) => {
   const { name, email, phone } = req.body;
 
   if (!name || !email || !phone) {
@@ -66,8 +44,8 @@ router.post("/api/contacts", async (req, res) => {
   }
 });
 
-// DELETE /api/contacts/:id
-router.delete("/api/contacts/:id", async (req, res) => {
+// Видалити контакт за ID
+router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -82,8 +60,8 @@ router.delete("/api/contacts/:id", async (req, res) => {
   }
 });
 
-// PUT /api/contacts/:id
-router.put("/api/contacts/:id", async (req, res) => {
+// Оновити контакт за ID
+router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { name, email, phone } = req.body;
 
@@ -107,8 +85,4 @@ router.put("/api/contacts/:id", async (req, res) => {
   }
 });
 
-// Запустити сервер на порту 3000 або іншому, якщо вам потрібно
-const PORT = process.env.PORT || 3000;
-router.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = router;
