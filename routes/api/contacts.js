@@ -1,6 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const contacts = require("../../models/contacts.json");
+// const contacts = require("../../models/contacts.json");
+const {
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
+  updateContact,
+} = require("../../models/contacts");
 
 // Отримати всі контакти
 router.get("/", async (req, res) => {
