@@ -34,7 +34,9 @@ mongoose
 // Схема моделі для колекції контактів
 const Contact = require("./service/schemas/contactSchema");
 // const Contact = mongoose.model("Contact", contactSchema);
+const favoriteRouter = require("./routes/api/favs");
 app.use("/api/contacts", contactsRouter(Contact));
+app.use("/api/favorite", favoriteRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

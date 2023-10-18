@@ -47,7 +47,7 @@ module.exports = (Contact) => {
 
   // Додати новий контакт
   router.post("/", async (req, res) => {
-    const { name, email, phone } = req.body;
+    const { name, email, phone } = req.query;
 
     try {
       const newContact = new Contact({ name, email, phone });
