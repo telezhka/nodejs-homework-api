@@ -6,7 +6,7 @@ const Contact = mongoose.model("Contact");
 // Оновити статус улюбленого контакту за ID
 router.patch("/:id", async (req, res) => {
   const { id } = req.params;
-  const { favorite } = req.body;
+  const { favorite } = req.query;
 
   try {
     const updatedContact = await Contact.findByIdAndUpdate(
