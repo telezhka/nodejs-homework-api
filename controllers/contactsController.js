@@ -1,49 +1,142 @@
-const Joi = require('joi');
-const contactSchema = require('../schemas/contactSchema');
-const contacts = require('../models/contacts.json');
-const { addContact, updateContact } = require('../models/contacts');
+const service = require('../service')
 
-
-// Контролер для створення нового контакта
-const createContact = async (req, res) => {
+const get = async (req, res, next) => {
   try {
-    const { name, email, phone } = req.query;
-
-    const { error } = contactSchema.validate({ name, email, phone });
-    if (error) {
-      return res.status(400).json({ message: error.details[0].message });
-    }
-
-    const newContact = await addContact(name, email, phone);
-    res.status(201).json(newContact);
-  } catch (error) {
-    res.status(500).json({ message: 'Internal Server Error' });
+    const results = await service.getAlltasks()
+    res.json({
+      status: 'success',
+      code: 200,
+      data: {
+        tasks: results,
+      },
+    }) 
+  } catch (e) {
+    console.error(e)
+    next(e)
   }
-};
+}
 
-// Контролер для оновлення існуючого контакта
-const updateContactt = async (req, res) => {
+const getById = async (req, res, next) => {
+  const { id } = req.params
   try {
-    const { id } = req.params;
-    const { name, email, phone } = req.query;
-
-    const { error } = contactSchema.validate({ name, email, phone });
-    if (error) {
-      return res.status(400).json({ message: error.details[0].message });
-    }
-
-    const updatedContact = await updateContact(id, { name, email, phone });
-    if (updatedContact) {
-      res.status(200).json(updatedContact);
+    const result = await service.getTaskById(id)
+    if (result) {
+      res.json({
+        status: 'success',
+        code: 200,
+        data: { task: result },
+      })
     } else {
-      res.status(404).json({ message: 'Not found' });
+      res.status(404).json({
+        status: 'error',
+        code: 404,
+        message: `Not found task id: ${id}`,
+        data: 'Not Found',
+      })
     }
-  } catch (error) {
-    res.status(500).json({ message: 'Internal Server Error' });
+  } catch (e) {
+    console.error(e)
+    next(e)
   }
-};
+}
+
+const create = async (req, res, next) => {
+  const { title, text } = req.body
+  try {
+    const result = await service.createTask({ title, text })
+
+    res.status(201).json({
+      status: 'success',
+      code: 201,
+      data: { task: result },
+    })
+  } catch (e) {
+    console.error(e)
+    next(e)
+  }
+}
+
+const update = async (req, res, next) => {
+  const { id } = req.params
+  const { title, text } = req.body
+  try {
+    const result = await service.updateTask(id, { title, text })
+    if (result) {
+      res.json({
+        status: 'success',
+        code: 200,
+        data: { task: result },
+      })
+    } else {
+      res.status(404).json({
+        status: 'error',
+        code: 404,
+        message: `Not found task id: ${id}`,
+        data: 'Not Found',
+      })
+    }
+  } catch (e) {
+    console.error(e)
+    next(e)
+  }
+}
+
+const updateStatus = async (req, res, next) => {
+  const { id } = req.params
+  const { isDone = false } = req.body
+
+  try {
+    const result = await service.updateTask(id, { isDone })
+    if (result) {
+      res.json({
+        status: 'success',
+        code: 200,
+        data: { task: result },
+      })
+    } else {
+      res.status(404).json({
+        status: 'error',
+        code: 404,
+        message: `Not found task id: ${id}`,
+        data: 'Not Found',
+      })
+    }
+  } catch (e) {
+    console.error(e)
+    next(e)
+  }
+}
+
+const remove = async (req, res, next) => {
+  const { id } = req.params
+
+  try {
+    const result = await service.removeTask(id)
+    if (result) {
+      res.json({
+        status: 'success',
+        code: 200,
+        data: { task: result },
+      })
+    } else {
+      res.status(404).json({
+        status: 'error',
+        code: 404,
+        message: `Not found task id: ${id}`,
+        data: 'Not Found',
+      })
+    }
+  } catch (e) {
+    console.error(e)
+    next(e)
+  }
+}
 
 module.exports = {
-  createContact,
-  updateContactt,
-};
+  get,
+  getById,
+  create,
+  update,
+  updateStatus,
+  remove,
+}

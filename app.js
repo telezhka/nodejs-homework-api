@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
+const mongoose = require("mongoose");
 
 const contactsRouter = require("./routes/api/contacts");
 
@@ -13,9 +14,8 @@ app.use(cors());
 app.use(express.json());
 
 // Підключення до MongoDB
-mongoose
   // mongodb+srv://telezhka:1PzEfDmrz6@cluster0.yobrik7.mongodb.net/?retryWrites=true&w=majority
-  .connect("mongodb://localhost:27017/contactsdb", {
+  mongoose.connect("mongodb+srv://telezhka:1PzEfDmrz6@cluster0.yobrik7.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -28,24 +28,24 @@ mongoose
   });
 
 // Схема моделі для колекції контактів
-const contactSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Set name for contact"],
-  },
-  email: {
-    type: String,
-  },
-  phone: {
-    type: String,
-  },
-  favorite: {
-    type: Boolean,
-    default: false,
-  },
-});
+// const contactSchema = new mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: [true, "Set name for contact"],
+//   },
+//   email: {
+//     type: String,
+//   },
+//   phone: {
+//     type: String,
+//   },
+//   favorite: {
+//     type: Boolean,
+//     default: false,
+//   },
+// });
 
-const Contact = mongoose.model("Contact", contactSchema);
+// const Contact = mongoose.model("Contact", contactSchema);
 
 app.use("/api/contacts", contactsRouter(Contact));
 
