@@ -1,29 +1,29 @@
-const Contact = require('./schemas/contactSchema')
+const Task = require("./schemas/contactSchema");
 
-const getAllContacts = async () => {
-  return Contact.find()
-}
+const getAlltasks = async () => {
+  return Task.find();
+};
 
-const getContactById = (id) => {
-  return Contact.findOne({ _id: id })
-}
+const getTaskById = (id) => {
+  return Task.findOne({ _id: id });
+};
 
-const createContact = ({ name, email, phone }) => {
-  return Contact.create({ name, email, phone })
-}
+const createTask = ({ title, text }) => {
+  return Task.create({ title, text });
+};
 
-const updateContact = (id, fields) => {
-  return Contact.findByIdAndUpdate({ _id: id }, fields, { new: true })
-}
+const updateTask = (id, fields) => {
+  return Task.findByIdAndUpdate({ _id: id }, fields, { new: true });
+};
 
-const removeContact = (id) => {
-  return Contact.findByIdAndRemove({ _id: id })
-}
+const removeTask = (id) => {
+  return Task.findByIdAndRemove({ _id: id });
+};
 
 module.exports = {
-  getAllContacts,
-  getContactById,
-  createContact,
-  updateContact,
-  removeContact,
-}
+  getAlltasks,
+  getTaskById,
+  createTask,
+  updateTask,
+  removeTask,
+};
