@@ -4,7 +4,10 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const contactsRouter = require("./routes/api/contacts");
-
+const userCurRouter = require("./routes/api/userCur");
+const userLogRouter = require("./routes/api/userLog");
+const userOutRouter = require("./routes/api/userOut");
+const userRegRouter = require("./routes/api/userReg");
 const app = express();
 const port = process.env.PORT || 3000; // Порт за замовчуванням 3000, але ви можете використовувати інший.
 
@@ -37,6 +40,11 @@ const Contact = require("./service/schemas/contactSchema");
 const favoriteRouter = require("./routes/api/favs");
 app.use("/api/contacts", contactsRouter(Contact));
 app.use("/api/favorite", favoriteRouter);
+// 
+app.use("/api/users/current", userCurRouter);
+app.use("/api/users/login", userLogRouter);
+app.use("/api/users/logout", userOutRouter);
+app.use("/api/users/register", userRegRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
