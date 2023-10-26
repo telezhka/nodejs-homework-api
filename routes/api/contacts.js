@@ -17,10 +17,12 @@
 // module.exports = router;
 const express = require("express");
 const router = express.Router();
+const authMiddleware = require("../../middleware/auth");
 
 module.exports = (Contact) => {
   // Отримати всі контакти
-  router.get("/", async (req, res) => {
+  router.get("/", authMiddleware, async (req, res) => {
+    // Захист рауту за допомогою аутентифікації
     try {
       const contactsData = await Contact.find();
       res.status(200).json(contactsData);
@@ -30,7 +32,8 @@ module.exports = (Contact) => {
   });
 
   // Отримати контакт за ID
-  router.get("/:id", async (req, res) => {
+  router.get("/:id", authMiddleware, async (req, res) => {
+    // Захист рауту за допомогою аутентифікації
     const { id } = req.params;
 
     try {
