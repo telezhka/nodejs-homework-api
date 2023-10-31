@@ -1,4 +1,5 @@
 const express = require("express");
+const gravatar = require("gravatar");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 // const jwt = require("jsonwebtoken");
@@ -22,6 +23,9 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ message: error.details[0].message });
     }
 
+    // Генерування URL аватара на основі email
+    const avatarURL = gravatar.url(email, { s: "200", d: "identicon", r: "pg" });
+
     // Перевірка, чи пошта вже використовується
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -35,7 +39,7 @@ router.post("/", async (req, res) => {
 
     await user.save();
 
-    res.status(201).json({ user: { email: user.email, subscription: user.subscription } });
+    res.status(201).json({ user: { email: user.email, subscription: user.subscription, avatarURL: user.avatarURL } });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
