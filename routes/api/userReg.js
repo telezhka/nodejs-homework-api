@@ -1,5 +1,5 @@
 const express = require("express");
-const gravatar = require("gravatar");
+// const gravatar = require("gravatar");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 // const jwt = require("jsonwebtoken");
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
     }
 
     // Генерування URL аватара на основі email
-    const avatarURL = gravatar.url(email, { s: "200", d: "identicon", r: "pg" });
+    // const avatarURL = gravatar.url(email, { s: "200", d: "identicon", r: "pg" });
 
     // Перевірка, чи пошта вже використовується
     const existingUser = await User.findOne({ email });

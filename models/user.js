@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const gravatar = require("gravatar");
-const crypto = require("crypto");
+// const gravatar = require("gravatar");
+// const crypto = require("crypto");
 
 const Schema = mongoose.Schema;
 

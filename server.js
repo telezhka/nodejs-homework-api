@@ -9,6 +9,7 @@ const userCurRouter = require("./routes/api/userCur");
 const userLogRouter = require("./routes/api/userLog");
 const userOutRouter = require("./routes/api/userOut");
 const userRegRouter = require("./routes/api/userReg");
+const avatarsRouter = require("./routes/api/avatars");
 const app = express();
 const port = process.env.PORT || 3000; // Порт за замовчуванням 3000, але ви можете використовувати інший.
 
@@ -46,6 +47,7 @@ app.use("/api/users/current", userCurRouter);
 app.use("/api/users/login", userLogRouter);
 app.use("/api/users/logout", userOutRouter);
 app.use("/api/users/register", userRegRouter);
+app.use("/api/users/avatars", avatarsRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
