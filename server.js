@@ -10,6 +10,7 @@ const userLogRouter = require("./routes/api/userLog");
 const userOutRouter = require("./routes/api/userOut");
 const userRegRouter = require("./routes/api/userReg");
 const avatarsRouter = require("./routes/api/avatars");
+const userVerifyRouter = require("./routes/api/userVerify");
 const app = express();
 const port = process.env.PORT || 3000; // Порт за замовчуванням 3000, але ви можете використовувати інший.
 
@@ -42,6 +43,7 @@ const Contact = require("./service/schemas/contactSchema");
 const favoriteRouter = require("./routes/api/favs");
 app.use("/api/contacts", contactsRouter(Contact));
 app.use("/api/favorite", favoriteRouter);
+app.use("/auth/verify", userVerifyRouter);
 // 
 app.use("/api/users/current", userCurRouter);
 app.use("/api/users/login", userLogRouter);
