@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+// const gravatar = require("gravatar");
+// const crypto = require("crypto");
+
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -16,6 +19,7 @@ const userSchema = new Schema({
     enum: ["starter", "pro", "business"],
     default: "starter",
   },
+  avatarURL: String,
   token: String,
 });
 
