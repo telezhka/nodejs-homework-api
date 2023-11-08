@@ -2,6 +2,8 @@ const express = require("express");
 // const gravatar = require("gravatar");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
+const uuid = require("uuid")
 // const jwt = require("jsonwebtoken");
 const Joi = require("joi"); // Потрібно встановити Joi
 
@@ -36,6 +38,43 @@ router.post("/", async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
     const user = new User({ email, password: hashedPassword });
+
+    // Створення verificationToken для користувача і запис його в БД
+    const verificationToken = uuid().toString();
+    user.verificationToken = verificationToken;
+
+    // Відправка email на пошту користувача
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: user.email,
+      subject: "Verify your email address",
+      text: `
+        Hi ${user.name},
+
+        Please click the following link to verify your email address:
+
+        https://my-app.com/users/verify/${verificationToken}
+
+        Thanks,
+        The team telezhka
+      `,
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`Email sent: ${info.messageId}`);
+      }
+    });
 
     await user.save();
 
