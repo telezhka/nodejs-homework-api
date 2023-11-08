@@ -29,6 +29,8 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../../models/user");
+const Joi = require("joi");
+const nodemailer = require("nodemailer");
 
 // Ендпоінт для повторної відправки email
 router.post("/", async (req, res) => {

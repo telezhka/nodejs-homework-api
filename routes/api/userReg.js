@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
-
+const uuid = require("uuid")
 // const jwt = require("jsonwebtoken");
 const Joi = require("joi"); // Потрібно встановити Joi
 

@@ -10,7 +10,7 @@ const userLogRouter = require("./routes/api/userLog");
 const userOutRouter = require("./routes/api/userOut");
 const userRegRouter = require("./routes/api/userReg");
 const avatarsRouter = require("./routes/api/avatars");
-const userVerifyRouter = require("./routes/api/userVerify");
+const userVerifyRouter = require("./routes/api/userVer");
 const app = express();
 const port = process.env.PORT || 3000; // Порт за замовчуванням 3000, але ви можете використовувати інший.
 
