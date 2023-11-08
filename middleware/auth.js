@@ -23,12 +23,17 @@ const authMiddleware = async (req, res, next) => {
       return res.status(401).json({ message: "Not authorized" });
     }
 
+    // Перевірка, чи верифіковано електронну адресу користувача
+    if (!user.verify) {
+      return res.status(401).json({ message: "Please verify your email address" });
+    }
+
     // Збереження даних користувача в req.user для подальшого використання
     req.user = user;
 
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Not authorized" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
